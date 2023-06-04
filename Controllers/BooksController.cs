@@ -1,19 +1,13 @@
-﻿using eBooks.Services.DataDB;
-using eBooks.Services.Generics;
-using Microsoft.AspNetCore.Mvc;
+﻿using eBooks.Model.BooksModel;
+using eBooks.Model.SearchObjects;
+using eBooks.Services.Base_Services;
 
 namespace eBooks.Controllers
 {
-    public class BooksController : ControllerBase
+    public class BooksController : BaseController<BookModel,BookSearchObject>
     {
-        IService<Book> service { get; set; }
-        public BooksController()
+        public BooksController(IService<BookModel, BookSearchObject> service) : base(service)
         {
         }
-        [HttpGet]
-        public IEnumerable<Book> Get() {
-
-            return service.Get();
-        } 
     }
 }

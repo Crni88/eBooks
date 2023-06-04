@@ -1,8 +1,10 @@
-using eBooks.Services.DataDB;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using eBooks.Services.Generics;
+using eBooks.Model.BooksModel;
+using eBooks.Model.SearchObjects;
 using eBooks.Services;
+using eBooks.Services.Base_Services;
+using eBooks.Services.DataDB;
+using eBooks.Services.Orders;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,13 +17,15 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(Book));
 
-builder.Services.AddTransient<IService, BooksService>();
+builder.Services.AddTransient<IOrdersService, OrdersService>();
+builder.Services.AddTransient<IService<BookModel,BookSearchObject>, BooksService>();
 
+//Add IOrdersService and OrdersService
 
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 builder.Services.AddDbContext<EBooksContext>(options =>
-options.UseSqlServer("Server=localhost, 1434;Initial Catalog=eBooks; user=sa; Password=Tarik123!;TrustServerCertificate=True;"));
+options.UseSqlServer("Server=localhost,1434;Initial Catalog=eBooks;User=sa;Password=Tarik123!;TrustServerCertificate=True;"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
